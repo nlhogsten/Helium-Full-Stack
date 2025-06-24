@@ -60,6 +60,12 @@ if [ -z "$ANON_KEY" ]; then
     exit 1
 fi
 
+read -p "Enter your Supabase service role key (from Project Settings > API): " SERVICE_ROLE_KEY
+if [ -z "$SERVICE_ROLE_KEY" ]; then
+    echo -e "${YELLOW}❌ Service role key is required. Please get it from Project Settings > API in your Supabase dashboard.${NC}"
+    exit 1
+fi
+
 # Get database password
 read -s -p "Enter your database password (from Project Settings > Database): " DB_PASSWORD
 echo ""  # New line after password input
@@ -74,12 +80,36 @@ cat > .env <<EOL
 # Supabase
 SUPABASE_URL=${SUPABASE_URL}
 SUPABASE_KEY=${ANON_KEY}
+SUPABASE_SERVICE_ROLE_KEY=${SERVICE_ROLE_KEY}
 DATABASE_PASSWORD=${DB_PASSWORD}
 
 # App
 DEBUG=True
 SECRET_KEY=$(python3 -c 'import secrets; print(secrets.token_hex(32))')
 EOL
+
+# Create frontend .env.local file
+FRONTEND_ENV_FILE="../localization-management-frontend/.env.local"
+echo -e "\n${GREEN}🌐 Creating frontend .env.local file...${NC}"
+cat > "$FRONTEND_ENV_FILE" <<EOL
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=$SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY
+
+# Environment
+NEXT_PUBLIC_DEBUG=true
+EOL
+
+# Set appropriate permissions
+chmod 600 "$FRONTEND_ENV_FILE"
+echo -e "${GREEN}✅ Created frontend .env.local file at $FRONTEND_ENV_FILE${NC}"
+
+# Verify the file was created
+if [ -f "$FRONTEND_ENV_FILE" ]; then
+    echo -e "${GREEN}✅ Frontend environment variables set up successfully!${NC}"
+else
+    echo -e "${YELLOW}⚠️  Failed to create frontend .env.local file${NC}"
+fi
 
 # Link to Supabase project
 echo -e "${GREEN}🔗 Linking to Supabase project...${NC}"
@@ -92,6 +122,14 @@ if SUPABASE_DB_PASSWORD="$DB_PASSWORD" supabase db push; then
 else
     echo -e "${YELLOW}⚠️  Failed to apply migrations. Please check the error messages above.${NC}"
     echo -e "${YELLOW}You can try running 'SUPABASE_DB_PASSWORD=your_password supabase db push' manually.${NC}"
+fi
+
+echo -e "\n${GREEN}🌱 Seeding test data...${NC}"
+if python -m scripts.seed_test_data; then
+    echo -e "${GREEN}✅ Test data seeded successfully!${NC}"
+else
+    echo -e "${YELLOW}⚠️  Failed to seed test data. Make sure you have the required dependencies installed.${NC}"
+    echo -e "${YELLOW}You can try running it manually with: python -m scripts.seed_test_data${NC}"
 fi
 
 echo -e "\n${GREEN}✅ Setup complete!${NC}"
