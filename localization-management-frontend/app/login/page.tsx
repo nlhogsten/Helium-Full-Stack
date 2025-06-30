@@ -1,18 +1,27 @@
-'use client'
-import { useActionState } from 'react'
-import { signIn, type FormState } from './actions'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { SubmitButton } from './components/SubmitButton'
+'use client';
+import { useActionState, useEffect } from 'react';
+import { signIn } from './actions';
+import { useRouter } from 'next/navigation';
+import { SubmitButton } from './components/SubmitButton';
+
+type FormState = {
+  error: string;
+  success: boolean;
+}
 
 const initialState: FormState = {
-  error: null,
+  error: '',
   success: false
 }
 
 export default function LoginPage() {
-  const [state, formAction] = useActionState(signIn, initialState)
   const router = useRouter()
+  const [state, formAction] = useActionState<FormState, FormData>(
+    async (prevState, formData) => {
+      return await signIn(prevState, formData)
+    },
+    initialState
+  )
 
   useEffect(() => {
     if (state.success) {
