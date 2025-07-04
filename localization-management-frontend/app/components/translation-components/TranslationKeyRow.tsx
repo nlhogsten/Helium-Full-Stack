@@ -67,7 +67,7 @@ export function TranslationKeyRow({
                     onKeyDown={(e) => e.key === 'Enter' && handleSave(lang)}
                     onBlur={() => onCancelEditing()}
                     autoFocus
-                    className="block w-full rounded-md border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-200 shadow-sm focus:border-stone-500 dark:focus:border-stone-400 focus:ring-stone-500 dark:focus:ring-stone-400 sm:text-sm pl-3"
+                    className="block w-full rounded-md border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-200 shadow-sm focus:border-stone-400 focus:ring-1 focus:ring-stone-400 dark:focus:ring-blue-300 sm:text-sm pl-3 focus:outline-none"
                   />
                   <button
                     onClick={(e) => {
@@ -80,7 +80,7 @@ export function TranslationKeyRow({
                       e.preventDefault();
                     }}
                     disabled={updateMutation.isPending}
-                    className="inline-flex items-center justify-center w-16 h-8 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-stone-600 hover:bg-stone-700 dark:bg-stone-500 dark:hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500 dark:focus:ring-stone-400 disabled:opacity-75 disabled:cursor-not-allowed transition-colors"
+                    className="inline-flex items-center justify-center w-16 h-8 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-stone-600 hover:bg-blue-400 dark:bg-stone-500 dark:hover:bg-blue-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500 dark:focus:ring-blue-300 disabled:opacity-75 disabled:cursor-not-allowed transition-colors"
                   >
                     {updateMutation.isPending ? <Spinner className="h-4 w-4" /> : 'Save'}
                   </button>

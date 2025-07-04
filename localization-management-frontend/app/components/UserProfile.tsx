@@ -53,7 +53,7 @@ export function UserProfileDropdown() {
     <div id="user-dropdown" className="relative inline-block">
       <button
         onClick={() => !isLoading && setOpen((prev) => !prev)}
-        className="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-900 dark:text-white bg-white dark:bg-stone-700 border border-gray-200 dark:border-stone-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-stone-500 dark:focus:ring-stone-400 focus:border-transparent transition-colors duration-200 cursor-pointer"
+        className="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-900 dark:text-white bg-white dark:bg-stone-700 border border-gray-200 dark:border-stone-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-stone-500 dark:focus:ring-blue-300 focus:border-transparent transition-colors duration-200 cursor-pointer"
         disabled={isLoading}
       >
         {isLoading ? (
@@ -81,7 +81,7 @@ export function UserProfileDropdown() {
             <button
               onClick={handleSignOut}
               disabled={isLoading}
-              className="flex justify-center w-full px-4 py-2 text-sm text-gray-900 rounded-lg dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-500 dark:focus:ring-stone-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-stone-700 cursor-pointer"
+              className="flex justify-center w-full px-4 py-2 text-sm text-gray-900 rounded-lg dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-500 dark:focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-stone-700 cursor-pointer"
               role="menuitem"
             >
               {isLoading ? <Spinner className="h-4 w-4" /> : 'Sign out'}

@@ -8,8 +8,8 @@ interface UIState {
 }
 
 export const useZustandStore = create<UIState>((set) => {
-  // debounce the actual `search` update by 300ms
-  const debounced = debounce((val: string) => set({ search: val }), 300)
+  // debounce the actual `search` update by 450ms
+  const debounced = debounce((val: string) => set({ search: val }), 450)
   return {
     rawSearch: '',
     search: '',

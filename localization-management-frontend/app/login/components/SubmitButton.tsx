@@ -1,7 +1,6 @@
-'use client'
-
-import { useFormStatus } from 'react-dom'
-import { Spinner } from '@/app/components/Spinner'
+'use client';
+import { useFormStatus } from 'react-dom';
+import { Spinner } from '@/app/components/Spinner';
 
 export function SubmitButton() {
   const { pending } = useFormStatus()
