@@ -1,41 +1,75 @@
 'use client';
 import { useMemo, useState, useEffect } from 'react';
-import { useAllTranslationKeys } from '@/lib/react-query/translationsHooks';
+import { useAllTranslationKeys, useUpdateTranslation } from '@/lib/react-query/translationsHooks';
 import { TranslationKeyRow } from './TranslationKeyRow';
 import type { TranslationKey } from '@/lib/types';
 import { useZustandStore } from '@/lib/zustand-stores/searchStore';
+import { useTranslationStore } from '@/lib/zustand-stores/translationStore';
 
 export function TranslationKeyManager() {
   const search = useZustandStore((s) => s.search);
   const { data: allKeys = [], isLoading, error, refetch } = useAllTranslationKeys();
   const [editingCell, setEditingCell] = useState<{keyId: string; lang: string} | null>(null);
+  
+  // Use the translation store
+  const { translationKeys, setTranslationKeys, updateTranslation } = useTranslationStore();
+  const updateMutation = useUpdateTranslation();
+
+  // Update local state when API data changes
+  useEffect(() => {
+    if (allKeys.length > 0) {
+      setTranslationKeys(allKeys);
+    }
+  }, [allKeys, setTranslationKeys]);
 
   // Cancel any open edit when the search term changes
   useEffect(() => {
-    setEditingCell(null)
-  }, [search])
+    setEditingCell(null);
+  }, [search]);
+
+  // Handle saving a translation
+  const handleSave = async (keyId: string, lang: string, value: string) => {
+    // Optimistically update the UI
+    updateTranslation(keyId, lang, value);
+    
+    try {
+      // Update the server
+      await updateMutation.mutateAsync({
+        id: keyId,
+        lang,
+        value,
+      });
+      
+      // Refresh the data to ensure consistency
+      await refetch();
+    } catch (error) {
+      // Revert on error
+      await refetch();
+      throw error;
+    }
+  };
 
   // Memoize filtered keys to avoid unnecessary state and effects
   const filteredKeys: TranslationKey[] = useMemo(() => {
-    if (!search) return allKeys;
+    if (!search) return translationKeys;
     const term = search.toLowerCase();
 
-    return allKeys.filter((key) => {
+    return translationKeys.filter((key) => {
       if (key.key.toLowerCase().includes(term)) return true;
       if (key.category?.toLowerCase().includes(term)) return true;
       return Object.values(key.translations).some((t) =>
         t.value.toLowerCase().includes(term)
       );
     });
-  }, [search, allKeys]);
+  }, [search, translationKeys]);
 
   // Get unique languages from the first key (assuming all keys have the same languages)
   const languages = useMemo(() => {
-    if (allKeys.length === 0) return [];
-    return Object.keys(allKeys[0]?.translations || {}).sort();
-  }, [allKeys]);
+    if (translationKeys.length === 0) return [];
+    return Object.keys(translationKeys[0]?.translations || {}).sort();
+  }, [translationKeys]);
 
-  if (isLoading) {
+  if (isLoading && translationKeys.length === 0) {
     return (
       <div className="flex justify-center items-center p-8">
         <p>Loading translations...</p>
@@ -76,7 +110,7 @@ export function TranslationKeyManager() {
               <TranslationKeyRow
                 key={keyObj.id}
                 keyObj={keyObj}
-                onSave={refetch}
+                onSave={handleSave}
                 isEditing={editingCell?.keyId === keyObj.id}
                 editingLang={editingCell?.lang}
                 onStartEditing={(lang) => setEditingCell({ keyId: keyObj.id, lang })}

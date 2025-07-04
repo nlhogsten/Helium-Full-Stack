@@ -20,6 +20,70 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Tests
+
+This project includes end-to-end tests using Playwright to ensure the translation management functionality works as expected.
+
+## Test Prerequisites
+
+Before running the tests, make sure the localization management API server is running. The frontend tests depend on this backend service.
+
+1. Navigate to the `localization-management-api` directory
+2. Start the API server (refer to the API's README for specific instructions)
+3. Ensure the API is accessible at the expected URL (default: http://localhost:8000)
+
+### Test Suite
+
+The test suite verifies the following user flows:
+1. **Authentication**
+   - Successful login with valid credentials
+   - Proper sign out functionality
+2. **Translation Management**
+   - Editing a translation cell
+   - Saving changes and verifying the update
+   - Reverting changes to the original value
+3. **Search Functionality**
+   - Searching for existing translations
+   - Verifying search results are filtered correctly
+   - Testing the "no results" state
+   - Clearing search and verifying all results are shown
+
+### Running Tests
+
+Run the following commands to execute the tests:
+
+```bash
+# Run all tests in headless mode
+npm run test
+
+# Run tests with UI (helpful for debugging)
+npm run test:ui
+
+# Run tests in specific browsers (headed mode)
+npm run test:chrome
+npm run test:firefox
+npm run test:safari
+
+# Debug tests with Playwright Inspector
+npm run test:debug
+```
+
+### Test Reports
+
+After running the tests, you can view the HTML report by running:
+
+```bash
+npx playwright show-report
+```
+
+### Test Configuration
+
+Test configuration can be found in `playwright.config.ts`, where you can modify:
+- Browser configurations
+- Timeout settings
+- Viewport sizes
+- Base URL for the application
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

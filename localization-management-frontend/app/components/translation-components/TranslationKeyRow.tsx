@@ -1,12 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useUpdateTranslation } from '@/lib/react-query/translationsHooks';
-import type { TranslationKey } from '@/lib/types';
 import { Spinner } from '../Spinner';
 
 type TranslationKeyRowProps = {
-  keyObj: TranslationKey;
-  onSave: () => void;
+  keyObj: {
+    id: string;
+    key: string;
+    category?: string;
+    translations: Record<string, { value: string }>;
+  };
+  onSave: (keyId: string, lang: string, value: string) => Promise<void>;
   isEditing: boolean;
   editingLang?: string;
   onStartEditing: (lang: string) => void;
@@ -22,7 +25,7 @@ export function TranslationKeyRow({
   onCancelEditing,
 }: TranslationKeyRowProps) {
   const [draft, setDraft] = useState<string>('');
-  const updateMutation = useUpdateTranslation();
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     // Reset draft when editing is cancelled
@@ -37,11 +40,20 @@ export function TranslationKeyRow({
   };
 
   const handleSave = async (lang: string) => {
-    await updateMutation.mutateAsync(
-      { id: keyObj.id, lang, value: draft }
-    );
-    onCancelEditing();
-    onSave();
+    if (draft === keyObj.translations[lang]?.value) {
+      onCancelEditing();
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      await onSave(keyObj.id, lang, draft);
+      onCancelEditing();
+    } catch (error) {
+      console.error('Failed to save translation:', error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -50,7 +62,7 @@ export function TranslationKeyRow({
         {keyObj.key}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-stone-500 dark:text-stone-400">
-        {keyObj.category}
+        {keyObj.category || '-'}
       </td>
       {Object.entries(keyObj.translations)
         .sort(([langA], [langB]) => langA.localeCompare(langB))
@@ -79,10 +91,10 @@ export function TranslationKeyRow({
                       // Prevent input blur when clicking the save button
                       e.preventDefault();
                     }}
-                    disabled={updateMutation.isPending}
+                    disabled={isSaving}
                     className="inline-flex items-center justify-center w-16 h-8 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-stone-600 hover:bg-blue-400 dark:bg-stone-500 dark:hover:bg-blue-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500 dark:focus:ring-blue-300 disabled:opacity-75 disabled:cursor-not-allowed transition-colors"
                   >
-                    {updateMutation.isPending ? <Spinner className="h-4 w-4" /> : 'Save'}
+                    {isSaving ? <Spinner className="h-4 w-4" /> : 'Save'}
                   </button>
                 </div>
               ) : (
