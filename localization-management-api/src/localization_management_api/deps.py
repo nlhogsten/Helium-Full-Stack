@@ -14,10 +14,8 @@ def get_supabase(
     token = credentials.credentials
     supabase: Client = get_supabase_client()
 
-    # inject the JWT into PostgREST calls
     supabase.postgrest.auth(token)
 
-    # validate – if anything goes wrong, we’ll catch it here
     try:
         supabase.auth.get_user(token)
     except Exception as e:

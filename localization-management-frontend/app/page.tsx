@@ -1,6 +1,6 @@
 'use client';
-import { TranslationKeyManager } from "./components/TranslationKeyManager";
-import { SearchBar } from "./components/SearchBar";
+import { TranslationKeyManager } from "./components/translation-components/TranslationKeyManager";
+import { SearchBar } from "./components/translation-components/SearchBar";
 import { UserProfileDropdown } from "./components/UserProfile";
 
 export default function Home() {

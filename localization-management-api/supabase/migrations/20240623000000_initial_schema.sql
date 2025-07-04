@@ -56,6 +56,21 @@ for select
 to authenticated
 using (true);
 
+-- Allow authenticated users to update translations
+create policy "Allow authenticated users to update translations"
+on public.translations
+for update
+to authenticated
+using (true)
+with check (true);
+
+-- Allow authenticated users to insert translations
+create policy "Allow authenticated users to insert translations"
+on public.translations
+for insert
+to authenticated
+with check (true);
+
 -- Functions for automatic timestamps
 create or replace function update_updated_at_column()
 returns trigger as $$

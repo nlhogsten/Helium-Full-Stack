@@ -1,4 +1,3 @@
-# src/routers/auth.py
 from fastapi import APIRouter, HTTPException, Depends, Header
 from supabase import Client
 from src.localization_management_api.deps import get_supabase

@@ -1,13 +1,10 @@
-# scripts/seed_test_data.py
 import os
 import asyncio
 from dotenv import load_dotenv
 from supabase import create_client, Client
 
-# Load environment variables
 load_dotenv()
 
-# Initialize Supabase client
 supabase_url = os.getenv("SUPABASE_URL")
 service_role_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
@@ -60,7 +57,8 @@ async def seed_test_data():
     # Create languages
     languages = [
         {"code": "en", "name": "English", "is_active": True},
-        {"code": "jp", "name": "Japanese", "is_active": True}
+        {"code": "jp", "name": "Japanese", "is_active": True},
+        {"code": "es", "name": "Spanish", "is_active": True}
     ]
     
     created_languages = []
@@ -104,11 +102,18 @@ async def seed_test_data():
         {"key_id": created_keys[4]["id"], "language_code": "en", "value": "Changes saved successfully", "updated_by": created_users[0].id},
         
         # Japanese translations
-        {"key_id": created_keys[0]["id"], "language_code": "jp", "value": "送信", "updated_by": created_users[1].id},  # Submit
-        {"key_id": created_keys[1]["id"], "language_code": "jp", "value": "キャンセル", "updated_by": created_users[1].id},  # Cancel
-        {"key_id": created_keys[2]["id"], "language_code": "jp", "value": "ヘリウムへようこそ", "updated_by": created_users[1].id},  # Welcome to our application
-        {"key_id": created_keys[3]["id"], "language_code": "jp", "value": "この項目は必須です", "updated_by": created_users[1].id},  # This field is required
-        {"key_id": created_keys[4]["id"], "language_code": "jp", "value": "変更が保存されました", "updated_by": created_users[1].id}  # Changes saved successfully
+        {"key_id": created_keys[0]["id"], "language_code": "jp", "value": "送信", "updated_by": created_users[1].id},
+        {"key_id": created_keys[1]["id"], "language_code": "jp", "value": "キャンセル", "updated_by": created_users[1].id},
+        {"key_id": created_keys[2]["id"], "language_code": "jp", "value": "ヘリウムへようこそ", "updated_by": created_users[1].id},
+        {"key_id": created_keys[3]["id"], "language_code": "jp", "value": "この項目は必須です", "updated_by": created_users[1].id},
+        {"key_id": created_keys[4]["id"], "language_code": "jp", "value": "変更が保存されました", "updated_by": created_users[1].id},
+        
+        # Spanish translations
+        {"key_id": created_keys[0]["id"], "language_code": "es", "value": "Enviar", "updated_by": created_users[0].id},
+        {"key_id": created_keys[1]["id"], "language_code": "es", "value": "Cancelar", "updated_by": created_users[0].id},
+        {"key_id": created_keys[2]["id"], "language_code": "es", "value": "Bienvenido a Helium", "updated_by": created_users[0].id},
+        {"key_id": created_keys[3]["id"], "language_code": "es", "value": "Este campo es obligatorio", "updated_by": created_users[0].id},
+        {"key_id": created_keys[4]["id"], "language_code": "es", "value": "Cambios guardados exitosamente", "updated_by": created_users[0].id}
     ]
     
     created_translations = 0

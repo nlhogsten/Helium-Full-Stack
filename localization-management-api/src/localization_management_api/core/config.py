@@ -2,12 +2,10 @@ import os
 from typing import Optional
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
 class Settings:
     def __init__(self):
-        # Required environment variables
         self.SUPABASE_URL = self._get_required_env("SUPABASE_URL")
         self.SUPABASE_ANON_KEY = self._get_required_env("SUPABASE_ANON_KEY")
         self.SUPABASE_SERVICE_ROLE_KEY = self._get_required_env("SUPABASE_SERVICE_ROLE_KEY")
@@ -24,5 +22,4 @@ class Settings:
         """Get an optional environment variable with a default value."""
         return os.getenv(var_name, default)
 
-# Create a singleton instance
 settings = Settings()
