@@ -5,11 +5,13 @@ import { TranslationKeyRow } from './TranslationKeyRow';
 import type { TranslationKey } from '@/lib/types';
 import { useZustandStore } from '@/lib/zustand-stores/searchStore';
 import { useTranslationStore } from '@/lib/zustand-stores/translationStore';
+import { useRefreshTranslationCompletion } from '@/lib/react-query/analyticsHooks';
 
 export function TranslationKeyManager() {
   const search = useZustandStore((s) => s.search);
   const { data: allKeys = [], isLoading, error, refetch } = useAllTranslationKeys();
   const [editingCell, setEditingCell] = useState<{keyId: string; lang: string} | null>(null);
+  const refreshCompletion = useRefreshTranslationCompletion();
   
   // Use the translation store
   const { translationKeys, setTranslationKeys, updateTranslation } = useTranslationStore();
@@ -40,8 +42,11 @@ export function TranslationKeyManager() {
         value,
       });
       
-      // Refresh the data to ensure consistency
-      await refetch();
+      // Refresh the data to ensure consistency and completion stats
+      await Promise.all([
+        refetch(),
+        refreshCompletion()
+      ]);
     } catch (error) {
       // Revert on error
       await refetch();

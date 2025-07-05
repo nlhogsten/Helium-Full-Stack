@@ -2,6 +2,7 @@
 import { TranslationKeyManager } from "./components/translation-components/TranslationKeyManager";
 import { SearchBar } from "./components/translation-components/SearchBar";
 import { UserProfileDropdown } from "./components/UserProfile";
+import { TranslationProgress } from "./components/translation-components/TranslationProgress";
 
 export default function Home() {
   return (
@@ -51,21 +52,18 @@ export default function Home() {
         <main className="w-3/4 xl:w-4/5 flex flex-col space-y-6">
           {/* Toolbar Area */}
           <div className="bg-white dark:bg-stone-800 shadow rounded-lg p-4 flex items-center justify-between min-h-[60px]">
-            {/* // TODO: Implement Toolbar Component (e.g., Search, Add Key Button) */}
             <SearchBar />
           </div>
 
           {/* Translation Keys List / Editor Area */}
           <section className="flex-grow bg-white dark:bg-stone-800 shadow rounded-lg p-4 lg:p-6">
-            <h2 className="text-xl font-semibold mb-4 text-stone-700 dark:text-stone-300">
-              Translation Management Area
-            </h2>
-            <TranslationKeyManager/>
-            {/* // TODO: Implement Translation Key List & Editor Component
-            <div className="p-6 border border-dashed border-stone-300 dark:border-stone-600 rounded bg-stone-50 dark:bg-stone-700 text-lg text-stone-500 dark:text-stone-400 min-h-[300px] flex items-center justify-center">
-              [Main Content: Key List, Editor, etc.]
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-stone-700 dark:text-stone-300">
+                Translation Management Area
+              </h2>
+              <TranslationProgress />
             </div>
-            */}
+            <TranslationKeyManager/>
           </section>
         </main>
       </div>
