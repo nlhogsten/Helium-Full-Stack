@@ -4,6 +4,10 @@
 
 To run this project locally the FastAPI backend server and Next.js frontend must be running simultaneously.
 
+### Live Demo
+
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://helium-full-stack.vercel.app/)
+
 ### Backend
 
 1. Navigate to the `localization-management-api` directory
@@ -118,3 +122,25 @@ The system leverages Supabase Auth with Row Level Security (RLS) to ensure data 
    - Reduces the number of joins needed for common queries
 
 This architecture provides a solid foundation for a secure, multi-tenant localization system that can scale with your needs while maintaining data integrity and security.
+
+## Deployment to Vercel
+
+To deploy this project to Vercel, set up these environment variables in your Vercel project settings:
+
+### Required Environment Variables
+
+| Variable Name | Description | Example |
+|--------------|-------------|---------|
+| `FRONTEND_URL` | URL where your frontend will be hosted | `https://your-app.vercel.app` |
+| `SUPABASE_URL` | Your Supabase project URL | `https://xxxxxxxxxxxxx.supabase.co` |
+| `SUPABASE_ANON_KEY` | Your Supabase anonymous/public key | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
+| `SUPABASE_SERVICE_ROLE_KEY` | Your Supabase service role key (keep secure) | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
+
+### Deployment Steps:
+1. Push your code to a GitHub/GitLab repository
+2. Import the repository into Vercel
+3. Go to your project settings → Environment Variables
+4. Add each required variable with its value
+5. Deploy your application
+
+**Security Note:** Never commit sensitive keys to version control. Use environment variables for all secrets.
