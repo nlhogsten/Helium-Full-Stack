@@ -82,8 +82,8 @@ FRONTEND_ENV_FILE="../localization-management-frontend/.env.local"
 echo -e "\n${GREEN}🌐 Creating frontend .env.local file...${NC}"
 cat > "$FRONTEND_ENV_FILE" <<EOL
 # Supabase
-NEXT_PUBLIC_SUPABASE_URL=$SUPABASE_URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY
+SUPABASE_URL=$SUPABASE_URL
+SUPABASE_ANON_KEY=$ANON_KEY
 
 # Environment
 NEXT_PUBLIC_DEBUG=true

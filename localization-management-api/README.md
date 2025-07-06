@@ -19,19 +19,19 @@ This is a FastAPI application to manage localizations with Supabase integration.
 
 Make sure you have youre Supabase keys and db password, run the database migration, and seed the test data & users (./setup.sh does this for you).
 
-    ```bash
-    # Make the setup script executable
-    chmod +x setup.sh
-    
-    # Run the setup script
-    ./setup.sh
-    ```
-    The script will guide you through:
-    - Installing Supabase CLI (if needed)
-    - Logging in to Supabase
-    - Setting up your project
-    - Applying database migrations
-    - Seeding test data & users
+```bash
+# Make the setup script executable
+chmod +x setup.sh
+
+# Run the setup script
+./setup.sh
+```
+The script will guide you through:
+- Installing Supabase CLI (if needed)
+- Logging in to Supabase
+- Setting up your project
+- Applying database migrations
+- Seeding test data & users
 
 ## Running the server
 
@@ -40,10 +40,6 @@ uvicorn src.localization_management_api.main:app --reload
 ```
 
 The API will be available at `http://127.0.0.1:8000`
-
-### API Documentation
-
-- Helium API docs: `https://github.com/nlhogsten/Helium-Full-Stack/blob/main/localization-management-api/README.md`
 
 ## Development
 
