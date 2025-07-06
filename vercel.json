@@ -10,18 +10,20 @@
       }
     },
     {
-      "src": "localization-management-api/src/localization_management_api/main.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb" }
+      "src": "localization-management-api/vercel.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
   "routes": [
     { "handle": "filesystem" },
-    { 
+    {
       "src": "/api/(.*)",
-      "dest": "localization-management-api/src/localization_management_api/main.py"
+      "dest": "/localization-management-api/$1"
     },
-    { 
+    {
       "src": "/(.*)",
       "dest": "/localization-management-frontend/$1"
     }
