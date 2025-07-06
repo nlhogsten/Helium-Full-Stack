@@ -28,6 +28,7 @@ To run this project locally the FastAPI backend server and Next.js frontend must
     "password": "user2pass123!"
   }
 ]
+```
 
 ## Database Architecture
 
