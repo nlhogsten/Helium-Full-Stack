@@ -11,6 +11,9 @@ app = FastAPI(
     root_path="/api"
 )
 
+# Disable automatic trailing‑slash redirects:
+app.router.redirect_slashes = False
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[settings.FRONTEND_URL],

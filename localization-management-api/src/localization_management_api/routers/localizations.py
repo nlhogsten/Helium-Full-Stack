@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("")
 async def get_translation_keys(supabase: Client = Depends(get_supabase)):
     """
     Fetch all translation keys with their translations
