@@ -7,6 +7,7 @@ To run this project locally the FastAPI backend server and Next.js frontend must
 ### Live Demo
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://helium-full-stack.vercel.app/)
+( https://helium-full-stack.vercel.app/ )
 
 ### Backend
 
@@ -135,6 +136,7 @@ To deploy this project to Vercel, set up these environment variables in your Ver
 | `SUPABASE_URL` | Your Supabase project URL | `https://xxxxxxxxxxxxx.supabase.co` |
 | `SUPABASE_ANON_KEY` | Your Supabase anonymous/public key | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
 | `SUPABASE_SERVICE_ROLE_KEY` | Your Supabase service role key (keep secure) | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
+| `ENV` | Mark project status | `development or production` |
 
 ### Deployment Steps:
 1. Push your code to a GitHub/GitLab repository

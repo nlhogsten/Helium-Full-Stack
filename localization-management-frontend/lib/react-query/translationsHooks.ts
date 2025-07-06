@@ -10,7 +10,7 @@ export function useAllTranslationKeys() {
     queryKey: ['allTranslationKeys'],
     queryFn: async () => {
       if (!session?.access_token) throw new Error('Not authenticated')
-      const { data } = await API.get<TranslationKey[]>('/localizations/', {
+      const { data } = await API.get<TranslationKey[]>('/localizations', {
         headers: { Authorization: `Bearer ${session.access_token}` },
       })
       return data

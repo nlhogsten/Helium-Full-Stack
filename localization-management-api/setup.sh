@@ -88,6 +88,7 @@ SUPABASE_ANON_KEY=$ANON_KEY
 # Environment
 NEXT_PUBLIC_DEBUG=true
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+ENV=development
 EOL
 
 chmod 600 "$FRONTEND_ENV_FILE"
