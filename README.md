@@ -9,16 +9,6 @@ To run this project locally the FastAPI backend server and Next.js frontend must
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://helium-full-stack.vercel.app/)
 ( https://helium-full-stack.vercel.app/ )
 
-### Backend
-
-1. Navigate to the `localization-management-api` directory
-2. Start the API server (refer to the API's README for specific instructions)
-
-### Frontend
-
-1. Open a new terminal and navigate to the `localization-management-frontend` directory
-2. Start the development server: (refer to the Frontend's README for specific instructions)
-
 **Test Account Credentials:**
 ```json
 [
@@ -34,6 +24,16 @@ To run this project locally the FastAPI backend server and Next.js frontend must
   }
 ]
 ```
+
+### Backend
+
+1. Navigate to the `localization-management-api` directory
+2. Start the API server (refer to the API's README for specific instructions)
+
+### Frontend
+
+1. Open a new terminal and navigate to the `localization-management-frontend` directory
+2. Start the development server: (refer to the Frontend's README for specific instructions)
 
 ## Database Architecture
 
@@ -82,7 +82,116 @@ The database schema is designed around three main tables that work together to p
   - `updated_by`: References `auth.users(id)`
   - `updated_at`: Timestamp
 
-### Authentication Integration
+## API Routes
+
+The application exposes the following API endpoints through FastAPI:
+
+### Localizations
+- `GET /localizations`
+  - Fetches all translation keys with their translations across all languages
+  - Returns a structured object with translation data
+
+- `PATCH /localizations/{key_id}?lang={lang}&value={value}`
+  - Updates a specific translation for a given key and language
+  - Requires `key_id`, `lang` (language code), and `value` (translation text)
+
+- `PATCH /localizations/bulk-update`
+  - Updates multiple translations in a single request
+  - Accepts an array of translation update objects with `key_id`, `language_code`, and `value`
+
+### Analytics
+- `GET /analytics/translation-completion`
+  - Returns translation completion statistics by language
+  - Shows percentage of translated strings for each active language
+  - Helps track translation progress across the application
+
+All API endpoints are prefixed with `/api` in production and require proper authentication.
+
+## Frontend Architecture
+
+The frontend leverages Zustand for local state management and React Query with axios for APIs & server state management.
+
+### State Management with Zustand
+
+Zustand is used for managing local application state across components:
+
+1. **Search State**
+   - Managed in `searchStore.ts`
+   - Used by `SearchBar.tsx` for filtering translation keys
+   - Provides a centralized way to manage search queries across the application
+   - Enables debounced search functionality using lodash to improve performance
+
+2. **Translation State**
+   - Managed in `translationStore.ts`
+   - Used by `TranslationKeyManager.tsx` and `TranslationKeyRow.tsx`
+   - Handles UI updates when translations are modified
+   - Maintains client-side state consistency during CRUD operations
+
+3. **Authentication State**
+   - Managed in `profileStore.ts`
+   - Used by `UserProfile.tsx` and `UserHydrator.tsx`
+   - Handles user authentication state and session management
+   - Provides a clean way to access user data throughout the application
+
+### Data Fetching with React Query
+
+React Query handles server state management with powerful features:
+
+1. **Data Fetching**
+   - `useAllTranslationKeys()` - Fetches all translation keys and their values
+   - `useTranslationCompletion()` - Retrieves translation completion statistics
+   - Automatic caching and background refetching
+   - Request deduplication and caching for optimal performance
+
+2. **Mutation Handling**
+   - `useUpdateTranslation()` - Handles translation updates
+   - Automatic cache invalidation
+   - Updates for instant UI feedback
+   - Error handling and retry logic
+
+### Component Integration
+
+- **SearchBar.tsx**: Uses Zustand to manage search state
+- **TranslationKeyManager.tsx**: Combines both Zustand and React Query:
+  - Uses Zustand for local state management
+  - Uses React Query for data fetching and mutations
+  - Implements optimistic updates for better UX
+- **TranslationKeyRow.tsx**: Pure presentational component that receives props and callbacks
+- **TranslationProgress.tsx**: Uses React Query to fetch and display translation completion stats
+- **UserProfile.tsx**:
+  - Utilizes Zustand's `useAuthStore` for authentication state
+  - Handles user sign-out functionality
+  - Manages user session state
+- **UserHydrator.tsx**:
+  - Server-side authentication state hydration
+  - Initializes the authentication store with server-rendered user data
+  - Ensures consistent authentication state between server and client
+
+This architecture provides a clean separation of concerns, with React Query handling server state and Zustand managing local UI state, resulting in a maintainable and performant application.
+
+## Testing
+
+The application includes comprehensive testing strategies for both frontend and backend components.
+
+### Backend Testing
+- **Test Framework**: Pytest
+- **Test Location**: `/tests/test_api/`
+- **Key Features**:
+  - API endpoint testing with FastAPI TestClient
+  - Database integration tests with a test database
+  - Fixtures for test data and database setup/teardown
+  - Test coverage for all major API endpoints
+
+### Frontend Testing
+- **Test Framework**: Playwright with TypeScript
+- **Test Location**: `/tests/e2e/`
+- **Key Features**:
+  - End-to-end testing of critical user flows
+  - Cross-browser testing support (Chrome, Firefox, Safari)
+  - Visual regression testing
+  - API mocking for isolated component testing
+
+## Authentication Integration
 
 The system leverages Supabase Auth with Row Level Security (RLS) to ensure data protection:
 
@@ -115,14 +224,11 @@ The system leverages Supabase Auth with Row Level Security (RLS) to ensure data 
 
 2. **Flexibility**:
    - The current structure supports most common use cases
-   - Additional features like versioning would require schema extensions
 
 3. **Simplicity**:
    - Chose a simpler schema over a more complex normalized one
    - Makes the system easier to understand and maintain
    - Reduces the number of joins needed for common queries
-
-This architecture provides a solid foundation for a secure, multi-tenant localization system that can scale with your needs while maintaining data integrity and security.
 
 ## Deployment to Vercel
 
@@ -136,7 +242,7 @@ To deploy this project to Vercel, set up these environment variables in your Ver
 | `SUPABASE_URL` | Your Supabase project URL | `https://xxxxxxxxxxxxx.supabase.co` |
 | `SUPABASE_ANON_KEY` | Your Supabase anonymous/public key | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
 | `SUPABASE_SERVICE_ROLE_KEY` | Your Supabase service role key (keep secure) | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
-| `ENV` | Mark project status | `development or production` |
+| `ENV` | Mark project status | `production` |
 
 ### Deployment Steps:
 1. Push your code to a GitHub/GitLab repository

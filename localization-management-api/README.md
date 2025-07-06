@@ -1,6 +1,34 @@
 # Localization Management API
 
-This is a FastAPI application to manage localizations with Supabase integration.
+This is a FastAPI application that provides a complete localization management solution with Supabase integration. The project features a fully automated database setup that initializes all necessary database components with a single command. To get started, you'll need to:
+
+1. Create a free account at [Supabase](https://supabase.com/)
+2. Create a new project in the Supabase dashboard
+3. Note down your project's URL, Service Role Key, anon/public key, and database password from Project Settings
+
+## Database Initialization
+
+The project includes a comprehensive database setup that creates and configures all required database components:
+
+1. **Database Schema**:
+   - `translation_keys` - Stores all translatable text keys and metadata
+   - `languages` - Manages supported languages and their active status
+   - `translations` - Contains the actual translated text for each key and language
+
+2. **Row Level Security (RLS)**:
+   - Pre-configured RLS policies for secure data access
+   - Authenticated users can view all translations
+   - Only authorized users can create or update translations
+
+3. **Initial Data**:
+   - Pre-loaded with common languages (English, Spanish, etc.)
+   - Sample translation keys for common UI elements
+   - Test users with appropriate permissions
+
+4. **Setup Automation**:
+   - Database migrations for schema versioning
+   - Seed script for initial data population
+   - Environment-based configuration
 
 ## Setup
 
