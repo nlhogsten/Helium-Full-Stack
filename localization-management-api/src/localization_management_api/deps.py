@@ -1,9 +1,8 @@
-# src/localization_management_api/deps.py
 import logging
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import Client
-from src.localization_management_api.core.supabase_client import get_supabase_client
+from .core.supabase_client import get_supabase_client
 
 logger = logging.getLogger(__name__)
 bearer = HTTPBearer()

@@ -2,8 +2,8 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from src.localization_management_api.core.config import settings
-from src.localization_management_api.routers import localizations, analytics
+from .core.config import settings
+from .routers import localizations, analytics
 
 app = FastAPI(
     title="Localization Management API",

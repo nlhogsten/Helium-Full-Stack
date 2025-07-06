@@ -1,8 +1,8 @@
 from typing import Dict
 from fastapi import APIRouter, Depends, HTTPException
 from supabase import Client
-from src.localization_management_api.deps import get_supabase
-from src.localization_management_api.core.config import settings
+from ..deps import get_supabase
+from ..core.config import settings
 
 router = APIRouter()
 

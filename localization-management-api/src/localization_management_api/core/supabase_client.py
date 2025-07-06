@@ -1,6 +1,6 @@
 from typing import Optional
 from supabase import create_client, Client
-from src.localization_management_api.core.config import settings
+from .config import settings
 
 _supabase: Optional[Client] = None
 

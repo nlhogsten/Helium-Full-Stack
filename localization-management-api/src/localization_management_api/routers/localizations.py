@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from supabase import Client
 from typing import List, Dict, Optional
-from src.localization_management_api.deps import get_supabase
+from ..deps import get_supabase
 import logging
 
 logger = logging.getLogger(__name__)
