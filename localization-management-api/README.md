@@ -154,3 +154,4 @@ localization-management-api/
 ├── .env.example                  # Example environment variables
 ├── setup.sh                      # Setup script for local development
 └── requirements.txt              # Project dependencies
+```

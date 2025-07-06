@@ -90,6 +90,7 @@ Test configuration can be found in `playwright.config.ts`, where you can modify:
 
 ## Project Structure
 
+```
 localization-management-frontend/
 ├── app/                            # Next.js app directory
 │   ├── components/                 # Reusable UI components
@@ -111,6 +112,7 @@ localization-management-frontend/
 ├── tests/                          # Test files
 ├── middleware.ts                   # Next.js middleware for route protection
 └── package.json                    # Project dependencies and scripts
+```
 
 ## Learn More
 
