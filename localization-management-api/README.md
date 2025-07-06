@@ -60,9 +60,45 @@ To create and apply new migrations:
 
 ### Running Tests
 
+The test suite includes comprehensive tests for the localization management API endpoints. The main test file `tests/test_api/test_localizations.py` contains the following test cases:
+
+1. **Basic Operations**
+   - `test_get_translation_keys`: Verifies retrieval of all translation keys
+   - `test_update_translation`: Tests updating a single translation
+   - `test_bulk_update_translations`: Tests updating multiple translations at once
+
+2. **Error Handling**
+   - `test_update_invalid_language`: Validates language code validation
+   - `test_update_missing_parameters`: Checks required parameter validation
+   - `test_update_nonexistent_key`: Ensures proper handling of non-existent keys
+   - `test_bulk_update_empty_request`: Tests empty bulk update requests
+   - `test_bulk_update_invalid_key`: Validates bulk updates with invalid keys
+   - `test_bulk_update_invalid_language`: Checks bulk updates with invalid languages
+   - `test_bulk_update_missing_fields`: Verifies required field validation in bulk updates
+
+Run the entire test suite:
+
 ```bash
 pytest
 ```
+
+To run a specific test function, for example, just the translation keys test:
+
+```bash
+pytest tests/test_api/test_localizations.py::test_get_translation_keys -v
+```
+
+To run tests with detailed output and print all print statements:
+
+```bash
+pytest -v -s
+```
+
+Common pytest options:
+- `-v`: Verbose output (shows test names and status)
+- `-s`: Don't capture stdout (print statements will be visible)
+- `-x`: Stop after first failure
+- `--pdb`: Drop into debugger on failure
 
 ## Project Structure
 
@@ -71,15 +107,23 @@ localization-management-api/
 ├── src/
 │   └── localization_management_api/
 │       ├── __init__.py
-│       ├── main.py           # FastAPI application
-│       ├── database.py       # Database connection
-│       ├── models/           # SQLAlchemy models
-│       └── api/              # API endpoints
-├── supabase/
-│   └── migrations/        # Database migrations
-├── tests/                   # Test files
-├── .env                    # Environment variables (auto-created)
-├── .gitignore
-├── pyproject.toml
-├── README.md
-└── setup.sh               # Setup script
+│       ├── main.py               # FastAPI application setup and configuration
+│       ├── deps.py               # Dependency injection setup
+│       ├── core/                 # Core application components
+│       │   ├── config.py         # Application configuration and settings
+│       │   └── supabase_client.py # Supabase client initialization
+│       └── routers/              # API route handlers
+│           ├── localizations.py  # Localization management endpoints
+│           └── analytics.py      # Analytics endpoints
+├── supabase/                     # Supabase configuration
+│   └── migrations/               # Database migration files
+│       └── <migration_files>     # Individual migration files
+├── scripts/                      # Utility scripts
+│   └── seed_prod_data.py         # Script to seed production data
+├── tests/                        # Test files
+│   ├── conftest.py              # Pytest configuration and fixtures
+│   └── test_api/                # API test files
+│       └── test_localizations.py # Tests for localization endpoints
+├── .env.example                  # Example environment variables
+├── setup.sh                      # Setup script for local development
+└── requirements.txt              # Project dependencies

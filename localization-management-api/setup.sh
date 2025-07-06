@@ -111,18 +111,11 @@ supabase db push \
 echo -e "${GREEN}✅ Database migrations applied successfully!${NC}"
 
 # ───────────── Seed Prod & Test Data ─────────────
-echo -e "\n${GREEN}🌱 Seeding prod data...${NC}"
+echo -e "\n${GREEN}🌱 Seeding data...${NC}"
 if python -m scripts.seed_prod_data; then
-    echo -e "${GREEN}✅ Prod data seeded successfully!${NC}"
+    echo -e "${GREEN}✅ Data seeded successfully!${NC}"
 else
-    echo -e "${YELLOW}⚠️  Failed to seed prod data. Try manually: python -m scripts.seed_prod_data${NC}"
-fi
-
-echo -e "\n${GREEN}🌱 Seeding test data...${NC}"
-if python -m scripts.seed_test_data; then
-    echo -e "${GREEN}✅ Test data seeded successfully!${NC}"
-else
-    echo -e "${YELLOW}⚠️  Failed to seed test data. Try manually: python -m scripts.seed_test_data${NC}"
+    echo -e "${YELLOW}⚠️  Failed to seed test data. Try manually: python -m scripts.seed_prod_data${NC}"
 fi
 
 # ───────────── Done ─────────────
