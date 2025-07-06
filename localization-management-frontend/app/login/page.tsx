@@ -37,7 +37,16 @@ export default function LoginPage() {
             Helium Localization Manager
           </h1>
           <p className="mt-2 text-stone-600 dark:text-stone-400">
-            See README for test account credentials
+            See{' '}
+            <a 
+              href="https://github.com/nlhogsten/Helium-Full-Stack/blob/main/README.md" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline dark:text-blue-400"
+            >
+              Docs
+            </a>{' '}
+            for test account credentials
           </p>
         </div>
 

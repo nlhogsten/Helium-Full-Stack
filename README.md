@@ -14,6 +14,21 @@ To run this project locally the FastAPI backend server and Next.js frontend must
 1. Open a new terminal and navigate to the `localization-management-frontend` directory
 2. Start the development server: (refer to the Frontend's README for specific instructions)
 
+**Test Account Credentials:**
+```json
+[
+  {
+    "name": "Test User 1",
+    "email": "user1@example.com",
+    "password": "user1pass123!"
+  },
+  {
+    "name": "Test User 2",
+    "email": "user2@example.com",
+    "password": "user2pass123!"
+  }
+]
+
 ## Database Architecture
 
 The system uses a relational database (PostgreSQL via Supabase) with the following structure:

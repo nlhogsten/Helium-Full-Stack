@@ -15,7 +15,10 @@ This is a FastAPI application to manage localizations with Supabase integration.
     pip install -r requirements.txt
     ```
 
-3.  Set up Supabase envs, run database migrations, and seed test data & users:
+3.  Set up Supabase:
+
+Make sure you have youre Supabase keys and db password, run the database migration, and seed the test data & users (./setup.sh does this for you).
+
     ```bash
     # Make the setup script executable
     chmod +x setup.sh
