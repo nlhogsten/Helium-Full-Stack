@@ -13,6 +13,11 @@ pnpm dev
 # or
 bun dev
 ```
+If this doesn't work then install dependencies then try again:
+
+```bash
+npm install
+```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
@@ -84,6 +89,30 @@ Test configuration can be found in `playwright.config.ts`, where you can modify:
 - Viewport sizes
 - Base URL for the application
 
+## Project Structure
+
+localization-management-frontend/
+├── app/                            # Next.js app directory
+│   ├── components/                 # Reusable UI components
+│   │   ├── providers/              # Context and theme providers
+│   │   └── translation-components/ # Translation-specific components
+│   ├── login/                      # Authentication pages
+│   └── (other app routes)          # Application pages
+├── lib/                            # Application libraries and utilities
+│   ├── react-query/                # React Query configuration and hooks
+│   │   ├── queryClient.ts          # Query client configuration
+│   │   ├── queryKeys.ts            # Query key constants
+│   │   ├── translationsHooks.ts    # Custom hooks for translations
+│   │   ├── analyticsHooks.ts       # Custom hooks for analytics
+│   │   └── profileHooks.ts         # Custom hooks for user profile
+│   └── zustand-stores/             # State management stores
+│       ├── translationStore.ts     # Store for translation state
+│       ├── profileStore.ts         # Store for user profile state
+│       └── searchStore.ts          # Store for search functionality
+├── tests/                          # Test files
+├── middleware.ts                   # Next.js middleware for route protection
+└── package.json                    # Project dependencies and scripts
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -95,6 +124,6 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The easiest way to deploy a Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
