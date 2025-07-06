@@ -28,12 +28,12 @@ async def create_test_user(email: str, password: str, name: str):
         return None
 
 async def seed_test_data():
-    print("Starting to seed test data...")
+    print("Starting to seed prod data...")
     
     # Create test users
     test_users = [
-        {"email": "test1@example.com", "password": "test1pass123!", "name": "Test User 1"},
-        {"email": "test2@example.com", "password": "test2pass123!", "name": "Test User 2"}
+        {"email": "user1@example.com", "password": "user1pass123!", "name": "Test User 1"},
+        {"email": "user2@example.com", "password": "user2pass123!", "name": "Test User 2"}
     ]
     
     created_users = []
@@ -63,7 +63,7 @@ async def seed_test_data():
     
     created_languages = []
     for lang in languages:
-        result = supabase.table("languages_test").insert(lang).execute()
+        result = supabase.table("languages").insert(lang).execute()
         if result.data:
             created_languages.append(result.data[0])
             print(f"✅ Created language: {lang['name']} ({lang['code']})")
@@ -83,7 +83,7 @@ async def seed_test_data():
     
     created_keys = []
     for key_data in translation_keys:
-        result = supabase.table("translation_keys_test").insert(key_data).execute()
+        result = supabase.table("translation_keys").insert(key_data).execute()
         if result.data:
             created_keys.append(result.data[0])
             print(f"✅ Created key: {key_data['key']}")
@@ -119,7 +119,7 @@ async def seed_test_data():
     created_translations = 0
     for translation in translations:
         try:
-            result = supabase.table("translations_test").insert(translation).execute()
+            result = supabase.table("translations").insert(translation).execute()
             if result.data:
                 created_translations += 1
         except Exception as e:

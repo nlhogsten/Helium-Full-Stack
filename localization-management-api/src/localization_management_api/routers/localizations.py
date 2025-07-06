@@ -94,6 +94,105 @@ async def get_translation_keys(supabase: Client = Depends(get_supabase)):
             detail=f"Error fetching translations: {str(e)}"
         )
 
+@router.patch("/bulk-update")
+async def bulk_update_translations(
+    updates: List[Dict[str, str]],
+    supabase: Client = Depends(get_supabase)
+):
+    """
+    Bulk update multiple translations in a single request.
+    
+    Request body should be a list of objects with the following structure:
+    [
+        {
+            "key_id": "uuid-of-the-key",
+            "language_code": "en",
+            "value": "translation text"
+        },
+        ...
+    ]
+    """
+    if not updates:
+        raise HTTPException(status_code=400, detail="No updates provided")
+    
+    try:
+        # Validate all keys and languages first
+        key_ids = {update["key_id"] for update in updates if "key_id" in update}
+        if key_ids:
+            keys_result = (
+                supabase
+                .table("translation_keys")
+                .select("id")
+                .in_("id", list(key_ids))
+                .execute()
+            )
+            existing_keys = {key["id"] for key in keys_result.data}
+            
+            # Check for any invalid keys
+            invalid_keys = key_ids - existing_keys
+            if invalid_keys:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"Translation keys not found: {', '.join(invalid_keys)}"
+                )
+        
+        # Get all active languages
+        languages_result = (
+            supabase
+            .table("languages")
+            .select("code")
+            .eq("is_active", True)
+            .execute()
+        )
+        active_languages = {lang["code"] for lang in languages_result.data}
+        
+        # Prepare data for bulk upsert
+        upsert_data = []
+        for update in updates:
+            if "key_id" not in update or "language_code" not in update or "value" not in update:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Each update must include 'key_id', 'language_code', and 'value'"
+                )
+                
+            if update["language_code"] not in active_languages:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Invalid or inactive language code: {update['language_code']}"
+                )
+                
+            upsert_data.append({
+                "key_id": update["key_id"],
+                "language_code": update["language_code"],
+                "value": update["value"]
+            })
+        
+        # Perform individual upserts
+        if upsert_data:
+            for update in upsert_data:
+                supabase.table("translations").upsert(
+                    {
+                        "key_id": update["key_id"],
+                        "language_code": update["language_code"],
+                        "value": update["value"]
+                    },
+                    on_conflict="key_id,language_code"
+                ).execute()
+        
+        return {
+            "status": "success",
+            "message": f"Successfully updated {len(upsert_data)} translations"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception("Error in bulk update")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error updating translations: {str(e)}"
+        )
+
 @router.patch("/{key_id}")
 async def update_translation(
     key_id: str,

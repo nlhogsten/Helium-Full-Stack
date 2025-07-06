@@ -108,14 +108,21 @@ echo -e "${GREEN}✅ Successfully linked to Supabase project!${NC}"
 echo -e "\n${GREEN}🔄 Applying database migrations...${NC}"
 supabase db push \
   --password "$DB_PASSWORD"
-    echo -e "${GREEN}✅ Database migrations applied successfully!${NC}"
-    
-    # ───────────── Seed Test Data ─────────────
-    echo -e "\n${GREEN}🌱 Seeding test data...${NC}"
-    if python -m scripts.seed_test_data; then
-        echo -e "${GREEN}✅ Test data seeded successfully!${NC}"
-    else
-        echo -e "${YELLOW}⚠️  Failed to seed test data. Try manually: python -m scripts.seed_test_data${NC}"
+echo -e "${GREEN}✅ Database migrations applied successfully!${NC}"
+
+# ───────────── Seed Prod & Test Data ─────────────
+echo -e "\n${GREEN}🌱 Seeding prod data...${NC}"
+if python -m scripts.seed_prod_data; then
+    echo -e "${GREEN}✅ Prod data seeded successfully!${NC}"
+else
+    echo -e "${YELLOW}⚠️  Failed to seed prod data. Try manually: python -m scripts.seed_prod_data${NC}"
+fi
+
+echo -e "\n${GREEN}🌱 Seeding test data...${NC}"
+if python -m scripts.seed_test_data; then
+    echo -e "${GREEN}✅ Test data seeded successfully!${NC}"
+else
+    echo -e "${YELLOW}⚠️  Failed to seed test data. Try manually: python -m scripts.seed_test_data${NC}"
 fi
 
 # ───────────── Done ─────────────
@@ -124,4 +131,4 @@ echo -e "\nNext steps:"
 echo -e "1. Start the development server with:\n"
 echo -e "   uvicorn src.localization_management_api.main:app --reload\n"
 echo -e "API available at: ${GREEN}http://localhost:8000${NC}"
-echo -e "Docs: ${GREEN}http://localhost:8000/docs${NC}"
+echo -e "Docs: ${GREEN}http://localhost:8000/README.md${NC}"

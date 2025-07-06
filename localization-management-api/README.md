@@ -6,7 +6,7 @@ This is a FastAPI application to manage localizations with Supabase integration.
 
 1.  Create and activate a virtual environment (recommended):
     ```bash
-    python -m venv venv
+    python -m venv venv # or python3 -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 
@@ -15,7 +15,7 @@ This is a FastAPI application to manage localizations with Supabase integration.
     pip install -r requirements.txt
     ```
 
-3.  Set up Supabase:
+3.  Set up Supabase envs, run database migrations, and seed test data & users:
     ```bash
     # Make the setup script executable
     chmod +x setup.sh
@@ -28,6 +28,7 @@ This is a FastAPI application to manage localizations with Supabase integration.
     - Logging in to Supabase
     - Setting up your project
     - Applying database migrations
+    - Seeding test data & users
 
 ## Running the server
 
@@ -39,8 +40,7 @@ The API will be available at `http://127.0.0.1:8000`
 
 ### API Documentation
 
-- Interactive API docs: `http://localhost:8000/docs`
-- Alternative API docs: `http://localhost:8000/redoc`
+- Helium API docs: `https://github.com/nlhogsten/Helium-Full-Stack/blob/main/localization-management-api/README.md`
 
 ## Development
 
