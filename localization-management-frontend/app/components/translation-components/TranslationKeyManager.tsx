@@ -6,6 +6,7 @@ import type { TranslationKey } from '@/lib/types';
 import { useZustandStore } from '@/lib/zustand-stores/searchStore';
 import { useTranslationStore } from '@/lib/zustand-stores/translationStore';
 import { useRefreshTranslationCompletion } from '@/lib/react-query/analyticsHooks';
+import { Spinner } from '../Spinner';
 
 export function TranslationKeyManager() {
   const search = useZustandStore((s) => s.search);
@@ -76,8 +77,28 @@ export function TranslationKeyManager() {
 
   if (isLoading && translationKeys.length === 0) {
     return (
-      <div className="flex justify-center items-center p-8">
-        <p>Loading translations...</p>
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-stone-200 dark:divide-stone-700">
+          <thead className="bg-stone-50 dark:bg-stone-800">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider">Key</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider">Category</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider">
+                <Spinner className="h-5 w-5" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colSpan={3} className="px-6 py-4 text-center">
+                <div className="flex items-center justify-center space-x-2 mt-6">
+                  <Spinner className="h-7 w-7 mr-2" />
+                  <span>Loading translations...</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   }
