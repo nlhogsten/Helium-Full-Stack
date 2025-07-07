@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./components/providers/QueryProvider";
 import { createClient } from '@/utils/supabase/server'
 import UserHydrator from "./components/providers/UserHydrator";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,8 +35,9 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-        <UserHydrator initialUser={user} initialSession={session} />
+          <UserHydrator initialUser={user} initialSession={session} />
           {children}
+          <Analytics />
         </Providers>
       </body>
     </html>
